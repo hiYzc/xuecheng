@@ -9,7 +9,6 @@
     <description>xuecheng-plus-parent</description>
     <packaging>pom</packaging>
 
-<!--    版本-->
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -35,7 +34,6 @@
     </properties>
 
 
-<!--    依赖管理-->
     <dependencyManagement>
         <dependencies>
 
@@ -188,6 +186,7 @@
         </dependencies>
 
     </dependencyManagement>
+
 
     <build>
         <finalName>${project.name}</finalName>

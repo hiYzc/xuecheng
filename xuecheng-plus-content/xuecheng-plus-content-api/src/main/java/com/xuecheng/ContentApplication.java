@@ -1,6 +1,5 @@
 package com.xuecheng;
 
-
 import com.spring4all.swagger.EnableSwagger2Doc;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,16 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @version 1.0
  * @description 内容管理服务启动类
  * @date 2023/2/11 15:49
-=======
-
-import com.spring4all.swagger.EnableSwagger2Doc;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.scheduling.annotation.EnableScheduling;
-
-/**
- * 内容管理服务启动类
->>>>>>> origin/dev02
  */
 @EnableSwagger2Doc
 @SpringBootApplication

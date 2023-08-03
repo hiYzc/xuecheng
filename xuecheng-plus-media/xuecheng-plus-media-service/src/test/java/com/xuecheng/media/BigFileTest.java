@@ -1,6 +1,7 @@
 package com.xuecheng.media;
 
-import javafx.print.Collation;
+//import javafx.print.Collation;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.jupiter.api.Test;
 
@@ -22,9 +23,9 @@ public class BigFileTest {
     @Test
     public void testChunk() throws IOException {
         //源文件
-        File sourceFile = new File("D:\\develop\\upload\\1.项目背景.mp4");
+        File sourceFile = new File("C:\\Users\\86133\\Desktop\\学成在线\\1.mp4");
         //分块文件存储路径
-        String chunkFilePath = "D:\\develop\\upload\\chunk\\";
+        String chunkFilePath = "C:\\Users\\86133\\Desktop\\upload\\";
         //分块文件大小
         int chunkSize = 1024 * 1024 * 5;
         //分块文件个数
@@ -38,9 +39,9 @@ public class BigFileTest {
             //分块文件写入流
             RandomAccessFile raf_rw = new RandomAccessFile(chunkFile, "rw");
             int len = -1;
-            while ((len=raf_r.read(bytes))!=-1){
-                raf_rw.write(bytes,0,len);
-                if(chunkFile.length()>=chunkSize){
+            while ((len = raf_r.read(bytes)) != -1) {
+                raf_rw.write(bytes, 0, len);
+                if (chunkFile.length() >= chunkSize) {
                     break;
                 }
             }
@@ -54,11 +55,11 @@ public class BigFileTest {
     @Test
     public void testMerge() throws IOException {
         //块文件目录
-        File chunkFolder = new File("D:\\develop\\upload\\chunk");
+        File chunkFolder = new File("C:\\Users\\86133\\Desktop\\upload");
         //源文件
-        File sourceFile = new File("D:\\develop\\upload\\1.项目背景.mp4");
+        File sourceFile = new File("C:\\Users\\86133\\Desktop\\学成在线\\1.mp4");
         //合并后的文件
-        File mergeFile = new File("D:\\develop\\upload\\1.项目背景_2.mp4");
+        File mergeFile = new File("C:\\Users\\86133\\Desktop\\学成在线\\1_2.mp4");
 
         //取出所有分块文件
         File[] files = chunkFolder.listFiles();
@@ -68,7 +69,7 @@ public class BigFileTest {
         Collections.sort(filesList, new Comparator<File>() {
             @Override
             public int compare(File o1, File o2) {
-                return Integer.parseInt(o1.getName())-Integer.parseInt(o2.getName());
+                return Integer.parseInt(o1.getName()) - Integer.parseInt(o2.getName());
             }
         });
         //向合并文件写的流
@@ -80,8 +81,8 @@ public class BigFileTest {
             //读分块的流
             RandomAccessFile raf_r = new RandomAccessFile(file, "r");
             int len = -1;
-            while ((len=raf_r.read(bytes))!=-1){
-                raf_rw.write(bytes,0,len);
+            while ((len = raf_r.read(bytes)) != -1) {
+                raf_rw.write(bytes, 0, len);
             }
             raf_r.close();
 
@@ -92,7 +93,7 @@ public class BigFileTest {
         FileInputStream fileInputStream_source = new FileInputStream(sourceFile);
         String md5_merge = DigestUtils.md5Hex(fileInputStream_merge);
         String md5_source = DigestUtils.md5Hex(fileInputStream_source);
-        if(md5_merge.equals(md5_source)){
+        if (md5_merge.equals(md5_source)) {
             System.out.println("文件合并成功");
         }
 

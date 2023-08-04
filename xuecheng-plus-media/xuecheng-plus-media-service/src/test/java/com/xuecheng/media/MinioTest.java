@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import java.io.*;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -37,16 +38,16 @@ public class MinioTest {
         //根据扩展名取出mimeType
         ContentInfo extensionMatch = ContentInfoUtil.findExtensionMatch(".mp4");
         String mimeType = MediaType.APPLICATION_OCTET_STREAM_VALUE;//通用mimeType，字节流
-        if (extensionMatch != null) {
+        if(extensionMatch!=null){
             mimeType = extensionMatch.getMimeType();
         }
 
         //上传文件的参数信息
         UploadObjectArgs uploadObjectArgs = UploadObjectArgs.builder()
                 .bucket("testbucket")//桶
-                .filename("C:\\Users\\86133\\Videos\\FilmForth\\Thumbnails\\1.png") //指定本地文件路径
+                .filename("D:\\develop\\upload\\1.mp4") //指定本地文件路径
 //                .object("1.mp4")//对象名 在桶下存储该文件
-                .object("test/01/1.png")//对象名 放在子目录下
+                .object("test/01/1.mp4")//对象名 放在子目录下
                 .contentType(mimeType)//设置媒体文件类型
                 .build();
 
@@ -54,8 +55,8 @@ public class MinioTest {
         minioClient.uploadObject(uploadObjectArgs);
 
 
-    }
 
+    }
     //删除文件
     @Test
     public void test_delete() throws Exception {
@@ -65,6 +66,7 @@ public class MinioTest {
 
         //删除文件
         minioClient.removeObject(removeObjectArgs);
+
 
 
     }
@@ -78,14 +80,14 @@ public class MinioTest {
         FilterInputStream inputStream = minioClient.getObject(getObjectArgs);
         //指定输出流
         FileOutputStream outputStream = new FileOutputStream(new File("D:\\develop\\upload\\1a.mp4"));
-        IOUtils.copy(inputStream, outputStream);
+        IOUtils.copy(inputStream,outputStream);
 
         //校验文件的完整性对文件的内容进行md5
         FileInputStream fileInputStream1 = new FileInputStream(new File("D:\\develop\\upload\\1.mp4"));
         String source_md5 = DigestUtils.md5Hex(fileInputStream1);
         FileInputStream fileInputStream = new FileInputStream(new File("D:\\develop\\upload\\1a.mp4"));
         String local_md5 = DigestUtils.md5Hex(fileInputStream);
-        if (source_md5.equals(local_md5)) {
+        if(source_md5.equals(local_md5)){
             System.out.println("下载成功");
         }
 
@@ -96,17 +98,17 @@ public class MinioTest {
     @Test
     public void uploadChunk() throws IOException, ServerException, InsufficientDataException, ErrorResponseException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
 
-        for (int i = 0; i < 35; i++) {
+        for (int i = 0; i < 6; i++) {
             //上传文件的参数信息
             UploadObjectArgs uploadObjectArgs = UploadObjectArgs.builder()
                     .bucket("testbucket")//桶
-                    .filename("C:\\Users\\86133\\Desktop\\upload\\" + i) //指定本地文件路径
-                    .object("chunk/" + i)//对象名 放在子目录下
+                    .filename("D:\\develop\\upload\\chunk\\"+i) //指定本地文件路径
+                    .object("chunk/"+i)//对象名 放在子目录下
                     .build();
 
             //上传文件
             minioClient.uploadObject(uploadObjectArgs);
-            System.out.println("上传分块" + i + "成功");
+            System.out.println("上传分块"+i+"成功");
         }
 
     }
@@ -122,7 +124,7 @@ public class MinioTest {
 //            sources.add(composeSource);
 //        }
 
-        List<ComposeSource> sources = Stream.iterate(0, i -> ++i).limit(35).map(i -> ComposeSource.builder().bucket("testbucket").object("chunk/" + i).build()).collect(Collectors.toList());
+        List<ComposeSource> sources = Stream.iterate(0, i -> ++i).limit(6).map(i -> ComposeSource.builder().bucket("testbucket").object("chunk/" + i).build()).collect(Collectors.toList());
 
         //指定合并后的objectName等信息
         ComposeObjectArgs composeObjectArgs = ComposeObjectArgs.builder()
@@ -137,7 +139,17 @@ public class MinioTest {
     }
 
 
+
     //批量清理分块文件
+
+
+
+
+
+
+
+
+
 
 
 }

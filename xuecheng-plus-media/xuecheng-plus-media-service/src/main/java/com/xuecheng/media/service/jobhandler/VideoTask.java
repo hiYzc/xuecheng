@@ -52,8 +52,8 @@ public class VideoTask {
 
         //任务数量
         int size = mediaProcessList.size();
-        log.debug("取到视频处理任务数:" + size);
-        if (size <= 0) {
+        log.debug("取到视频处理任务数:"+size);
+        if(size<=0){
             return;
         }
         //创建一个线程池
@@ -62,7 +62,7 @@ public class VideoTask {
         CountDownLatch countDownLatch = new CountDownLatch(size);
         mediaProcessList.forEach(mediaProcess -> {
             //将任务加入线程池
-            executorService.execute(() -> {
+            executorService.execute(()->{
                 try {
                     //任务id
                     Long taskId = mediaProcess.getId();
@@ -128,7 +128,7 @@ public class VideoTask {
 
                     //更新任务状态为成功
                     mediaFileProcessService.saveProcessFinishStatus(taskId, "2", fileId, url, "创建临时文件异常");
-                } finally {
+                }finally {
                     //计算器减去1
                     countDownLatch.countDown();
                 }
@@ -143,7 +143,7 @@ public class VideoTask {
 
     }
 
-    private String getFilePath(String fileMd5, String fileExt) {
-        return fileMd5.substring(0, 1) + "/" + fileMd5.substring(1, 2) + "/" + fileMd5 + "/" + fileMd5 + fileExt;
+    private String getFilePath(String fileMd5,String fileExt){
+        return   fileMd5.substring(0,1) + "/" + fileMd5.substring(1,2) + "/" + fileMd5 + "/" +fileMd5 +fileExt;
     }
 }

@@ -1,6 +1,5 @@
 package com.xuecheng.media;
 
-
 import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.jupiter.api.Test;
 
